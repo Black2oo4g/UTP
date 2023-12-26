@@ -18,12 +18,12 @@ public class EmailController {
     private EmailService emailService;
 
     @GetMapping("/enviar")
-    void sendVerificationEmail() {
+    void sendVerificationEmail(@RequestParam("to") String toEmail) {
         String securityCode = emailService.generateSecurityCode();
         Map<String, Object> model = Map.of("welcomeMessage", "¡Bienvenido al sistema de verificación de autenticidad para alumnos de la UTP!",
                 "appDescription", "Esta aplicación ha sido desarrollada por un alumno de la UTP con el propósito de implementar una red social exclusiva para estudiantes que forman parte de la Universidad Tecnológica del Perú.",
                 "codeofsecurity", "Código de verificación: " + securityCode);
-        EmailUtp email = emailService.createEmail("navarrogianfranco9@gmail.com", "Verificación de autenticidad alumno UTP", model);
+        EmailUtp email = emailService.createEmail(toEmail, "Verificación de autenticidad alumno UTP", model);
         emailService.sendEmail(email);
     }
 }
